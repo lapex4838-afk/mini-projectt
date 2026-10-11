@@ -425,8 +425,7 @@ Report reproducible bugs through the [issue tracker](https://github.com/Harsh-ma
 Distributed under the **MIT License**. See [LICENSE.md](LICENSE.md) for the full terms.
 
 ## 👤 Author
-
-**Harsh Mahadik**  
+neha
 [GitHub profile](https://github.com/Harsh-mahadik999) · [Project repository](https://github.com/Harsh-mahadik999/AI-guardian-ANGEL---GOOGLE-EXTENSION--)
 
 If the project helps you, consider starring the repository or contributing a reproducible bug report.
