@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#67e8f9"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#6366f1" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="128" height="128" rx="24" fill="url(#bg)"/>
+  <!-- Outer glow ring -->
+  <circle cx="64" cy="64" r="52" fill="none" stroke="url(#shield)" stroke-width="1" opacity="0.3"/>
+  <!-- Shield body -->
+  <path d="M64 18 L96 32 L96 68 Q96 90 64 110 Q32 90 32 68 L32 32 Z"
+        fill="url(#shield)" filter="url(#shadow)" opacity="0.95"/>
+  <!-- Shield inner highlight -->
+  <path d="M64 26 L90 38 L90 68 Q90 86 64 103 Q38 86 38 68 L38 38 Z"
+        fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+  <!-- AI circuit lines inside shield -->
+  <g stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round">
+    <!-- Horizontal bars -->
+    <line x1="52" y1="52" x2="76" y2="52"/>
+    <line x1="48" y1="64" x2="80" y2="64"/>
+    <line x1="52" y1="76" x2="76" y2="76"/>
+    <!-- Vertical connectors -->
+    <line x1="52" y1="52" x2="52" y2="76"/>
+    <line x1="76" y1="52" x2="76" y2="76"/>
+    <!-- Center cross -->
+    <line x1="64" y1="46" x2="64" y2="82"/>
+  </g>
+  <!-- Circuit nodes (dots) -->
+  <g fill="white" opacity="0.9">
+    <circle cx="52" cy="52" r="3"/>
+    <circle cx="76" cy="52" r="3"/>
+    <circle cx="64" cy="52" r="2.5"/>
+    <circle cx="52" cy="64" r="2.5"/>
+    <circle cx="80" cy="64" r="2.5"/>
+    <circle cx="48" cy="64" r="2.5"/>
+    <circle cx="64" cy="64" r="4" fill="url(#glow)"/>
+    <circle cx="52" cy="76" r="3"/>
+    <circle cx="76" cy="76" r="3"/>
+    <circle cx="64" cy="76" r="2.5"/>
+    <circle cx="64" cy="46" r="3" fill="#67e8f9"/>
+    <circle cx="64" cy="82" r="3" fill="#67e8f9"/>
+  </g>
+  <!-- Bottom checkmark on shield tip -->
+  <path d="M58 88 L62 93 L72 80" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+</svg>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { min-height: 100vh; background:#0a0a1a; color:#e0e0e0; font-family:'Segoe UI',system-ui,sans-serif; font-size:13px; display: flex;
+  justify-content: center;       
+  align-items: center;   }
+
+.header { background:linear-gradient(135deg,#6366f1,#8b5cf6); padding:16px; text-align:center; }
+.header h1 { font-size:20px; color:#fff; } .header p { font-size:11px; color:rgba(255,255,255,.8); margin-top:2px; }
+
+.tabs { display:flex; border-bottom:1px solid #222; background:#0e0e20; }
+.tabs button { flex:1; padding:10px 0; background:none; border:none; color:#666; font-size:11px; cursor:pointer; border-bottom:2px solid transparent; transition:.2s; }
+.tabs button.active { color:#8b5cf6; border-bottom-color:#8b5cf6; }
+.tabs button:hover { color:#aaa; }
+
+.panel { display:none; padding:14px; } .panel.active { display:block; }
+
+/* Summary Card */
+.summary-card { background:#12122a; border:1px solid #1e1e3a; border-radius:10px; padding:14px; margin-bottom:12px; }
+.summary-card h3 { font-size:12px; color:#8b5cf6; margin-bottom:10px; letter-spacing:.5px; }
+.summary-title { font-size:14px; font-weight:700; color:#fff; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.score-row { display:flex; align-items:center; gap:8px; margin:6px 0; }
+.score-badge { padding:3px 10px; border-radius:20px; font-size:12px; font-weight:700; }
+.score-green { background:rgba(16,185,129,.15); color:#10b981; }
+.score-yellow { background:rgba(245,158,11,.15); color:#f59e0b; }
+.score-red { background:rgba(239,68,68,.15); color:#ef4444; }
+.summary-line { font-size:12px; color:#bbb; margin:4px 0; line-height:1.5; }
+.summary-tip { font-size:11px; color:#8b5cf6; margin-top:8px; padding:8px; background:rgba(139,92,246,.08); border-radius:6px; }
+
+/* Stats Grid */
+.stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.stat { background:#12122a; border:1px solid #1e1e3a; border-radius:8px; padding:10px; }
+.stat-label { font-size:10px; color:#666; text-transform:uppercase; letter-spacing:.5px; }
+.stat-val { font-size:22px; font-weight:800; color:#8b5cf6; margin-top:4px; }
+
+/* Buttons */
+.btn { width:100%; padding:11px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; border:none; border-radius:8px; font-weight:600; font-size:13px; cursor:pointer; margin-bottom:8px; transition:.2s; }
+.btn:hover { opacity:.9; transform:translateY(-1px); }
+.btn:disabled { opacity:.5; cursor:wait; }
+.btn-sm { padding:8px; font-size:12px; background:#1e1e3a; }
+.btn-green { background:linear-gradient(135deg,#10b981,#059669); }
+
+/* Results */
+.results { background:#12122a; border:1px solid #1e1e3a; border-radius:10px; padding:14px; margin-top:10px; display:none; }
+.results.show { display:block; }
+.risk-bar-wrap { background:rgba(255,255,255,.08); height:10px; border-radius:5px; overflow:hidden; margin:8px 0; }
+.risk-bar { height:100%; border-radius:5px; transition:width .6s ease; }
+.bullet { font-size:12px; color:#ccc; padding:3px 0; line-height:1.5; }
+.bullet::before { content:'• '; color:#8b5cf6; }
+.risk-item { font-size:11px; color:#ef4444; padding:2px 0; }
+.risk-item::before { content:'⚠️ '; }
+
+/* Loading */
+.loading { text-align:center; padding:20px; color:#666; }
+.loading::after { content:''; display:inline-block; width:16px; height:16px; border:2px solid #8b5cf6; border-top-color:transparent; border-radius:50%; animation:spin .8s linear infinite; margin-left:8px; vertical-align:middle; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+.info { background:rgba(139,92,246,.08); border-left:3px solid #8b5cf6; padding:10px; border-radius:0 6px 6px 0; font-size:12px; color:#aaa; margin-bottom:12px; }
+.verdict { font-size:16px; font-weight:800; margin:8px 0; }
+.detail-row { font-size:12px; color:#bbb; padding:4px 0; }
+.detail-row strong { color:#e0e0e0; }
+
+/* Toggle Switch */
+.switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #1e1e3a; transition: .4s; border-radius: 22px; border: 1px solid #333; }
+.slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: #aaa; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: #ef4444; border-color: #ef4444; }
+input:checked + .slider:before { transform: translateX(18px); background-color: #fff; }
+.app-container {
+  width: 420px;
+  min-height: 500px;
+  background: #0a0a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6); 
+}
+
+</style>
+</head>
+<body>
+
+     <div class="app-container">
+
+<div class="header">
+    <h1>🛡️ Guardian AI</h1>
+    <p>Advanced Security & Privacy Shield</p>
+</div>
+
+<div class="tabs">
+    <button class="active" data-tab="dashboard">📊 Dashboard</button>
+    <button data-tab="privacy">🔐 Privacy</button>
+    <button data-tab="payments">💳 Payments</button>
+    <button data-tab="email">📧 Email</button>
+    <button data-tab="settings">⚙️</button>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboard" class="panel active">
+    <div class="summary-card">
+        <h3>📄 CURRENT PAGE SCAN</h3>
+        <div id="pageSummary"><div class="loading">Scanning page</div></div>
+    </div>
+
+    <div class="stats">
+        <div class="stat"><div class="stat-label">🚫 Ads Blocked</div><div class="stat-val" id="sAds">0</div></div>
+        <div class="stat"><div class="stat-label">👁️ Trackers</div><div class="stat-val" id="sTrack">0</div></div>
+        <div class="stat"><div class="stat-label">⚠️ Threats</div><div class="stat-val" id="sThreats">0</div></div>
+        <div class="stat"><div class="stat-label">📄 Scanned</div><div class="stat-val" id="sPages">0</div></div>
+    </div>
+
+    <button class="btn-sm btn"  id="scanBtn">🔍 Scan This Page Now</button>
+    <button class="btn-sm btn" id="refreshBtn">🔄 Refresh</button>
+</div>
+
+<!-- ===== PRIVACY ===== -->
+<div id="privacy" class="panel">
+    <div class="info">Analyze any page's privacy policy, terms, or data practices using AI.</div>
+    <button class="btn" id="btnPrivacy" onclick="runPrivacy()">🔐 Analyze Privacy & Terms</button>
+    <div id="privacyResults" class="results"></div>
+</div>
+
+<!-- ===== PAYMENTS ===== -->
+<div id="payments" class="panel">
+    <div class="info">Verify if a checkout or payment page is legit, suspicious, or a scam.</div>
+    <button class="btn" id="btnPayment" onclick="runPayment()">💳 Verify Payment Page</button>
+    <div id="paymentResults" class="results"></div>
+</div>
+
+<!-- ===== EMAIL ===== -->
+<div id="email" class="panel">
+    <div class="info">Paste suspicious email content below to check for phishing/scam patterns.</div>
+    <textarea id="emailInput" placeholder="Paste email text here..." style="width:100%;height:120px;background:#12122a;color:#e0e0e0;border:1px solid #1e1e3a;border-radius:8px;padding:10px;font-size:12px;resize:vertical;margin-bottom:8px;font-family:inherit;"></textarea>
+    <button class="btn" id="btnEmail" onclick="runEmail()">📧 Analyze Email</button>
+    <div id="emailResults" class="results"></div>
+</div>
+
+<!-- ===== SETTINGS ===== -->
+<div id="settings" class="panel">
+    <div class="summary-card">
+        <h3>GUARDIAN AI v2.0</h3>
+        <div class="summary-line">✅ AI-Powered Privacy Analyzer</div>
+        <div class="summary-line">✅ Payment Gateway Verifier</div>
+        <div class="summary-line">✅ Email Scam Detector</div>
+        <div class="summary-line">✅ Auto Page Scanner</div>
+        <div class="summary-line">✅ Cookie Consent Manager</div>
+        <div class="summary-line">✅ Ad & Tracker Blocking</div>
+        <div class="summary-line" style="margin-top:8px; color:#666;">API: Google (Gemini 2.0 Flash)</div>
+    </div>
+
+    <div class="summary-card" style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <h3 style="margin-bottom:4px; color:#fff;">Pause Protection</h3>
+            <div class="summary-line" style="margin:0;">Temporarily disable all scanning and alerts</div>
+        </div>
+        <label class="switch">
+            <input type="checkbox" id="pauseToggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <button class="btn btn-sm" onclick="resetStats()">🔄 Reset All Stats</button>
+</div>
+
+<script src="popup_simple.js"></script>
+</div>
+</body>
+</html>

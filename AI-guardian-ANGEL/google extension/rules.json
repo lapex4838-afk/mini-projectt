@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "block"
+        },
+        "condition": {
+            "urlFilter": "doubleclick.net",
+            "resourceTypes": [
+                "script",
+                "image"
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "priority": 1,
+        "action": {
+            "type": "block"
+        },
+        "condition": {
+            "urlFilter": "googlesyndication.com",
+            "resourceTypes": [
+                "script",
+                "image"
+            ]
+        }
+    }
+]

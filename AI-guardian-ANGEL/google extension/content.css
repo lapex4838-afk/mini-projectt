@@ -1,0 +1,8 @@
+/* Guardian AI – Content CSS */
+#guardian-toast {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
+}
+#guardian-privacy-banner *, #guardian-payment-banner *, #guardian-gmail-badge * {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
+  box-sizing: border-box;
+}
